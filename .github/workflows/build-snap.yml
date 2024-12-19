@@ -1,4 +1,4 @@
-name: Build and test MicroK8s snap
+name: Build and test MicroK8s snapa
 
 on:
   pull_request:
