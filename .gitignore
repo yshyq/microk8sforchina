@@ -1,0 +1,21 @@
+/build/
+/parts/
+/prime/
+/stage/
+!/snap/hooks/
+*.snap
+microk8s.egg-info/
+microk8s_source.tar.bz2
+tests/__pycache__
+.idea/
+**/tests/*.pyc
+.venv/
+.vscode/
+/installer/.venv/
+/installer/**/__pycache__
+/installer/dist/
+/installer/build/
+.tox/
+.tox_env/
+__pycache__/
+microk8s_*.txt #Remote build log
