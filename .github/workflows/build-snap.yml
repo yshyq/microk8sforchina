@@ -28,12 +28,12 @@ jobs:
       - name: Build snap
         run: |
           sg lxd -c 'snapcraft --use-lxd'
-          sudo mv microk8s*.snap microk8s.snap
+          sudo mv microk8s*.snap microk8sforchina.snap
       - name: Uploading snap
         uses: actions/upload-artifact@v3
         with:
-          name: microk8s.snap
-          path: microk8s.snap
+          name: microk8sforchina.snap
+          path: microk8sforchina.snap
 
   test-upgrade:
     name: Upgrade path test
