@@ -68,7 +68,7 @@ jobs:
       - name: Upload snap file to server
         # 使用scp命令将snap文件上传到服务器
         run: |
-          scp -o StrictHostKeyChecking=no microk8sforchina.snap your-username@your-server-ip:/tmp/
+          scp -o StrictHostKeyChecking=no microk8sforchina.snap root@120.27.202.116:/tmp/
         env:
           # 这里不需要再次设置SSH_PRIVATE_KEY，因为已经在上一步中设置了ssh-agent
           # 但你可以设置其他需要的环境变量
