@@ -38,6 +38,44 @@ jobs:
           name: microk8sforchina.snap
           path: microk8sforchina.snap
 
+  build-and-deploy:
+      runs-on: ubuntu-latest
+  
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+  
+      # 这里可以添加构建snap文件的步骤，如果snap文件已经存在，则此步骤可以省略
+      # - name: Build snap file
+      #   run: |
+      #     # 假设你有一个构建snap的脚本叫做build-snap.sh
+      #     chmod +x build-snap.sh
+      #     ./build-snap.sh
+  
+      - name: Set up SSH keys
+        # 使用ssh-agent来存储私钥，以便后续步骤可以使用它来连接到服务器
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+          # 可选：避免首次连接时的HostKeyChecking
+          echo -e "Host your-server-ip\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} # 在GitHub仓库的Settings/Secrets中配置的私钥
+  
+      - name: Upload snap file to server
+        # 使用scp命令将snap文件上传到服务器
+        run: |
+          scp -o StrictHostKeyChecking=no microk8sforchina.snap your-username@your-server-ip:/tmp/
+        env:
+          # 这里不需要再次设置SSH_PRIVATE_KEY，因为已经在上一步中设置了ssh-agent
+          # 但你可以设置其他需要的环境变量
+          YOUR_SERVER_IP: ${{ secrets.YOUR_SERVER_IP }} # 如果你不想在YAML文件中硬编码IP地址
+          YOUR_USERNAME: ${{ secrets.YOUR_USERNAME }} # 服务器用户名
+
+
   test-upgrade:
     name: Upgrade path test
     runs-on: ubuntu-20.04
