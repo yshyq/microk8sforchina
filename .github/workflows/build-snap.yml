@@ -29,6 +29,7 @@ jobs:
           sudo snap refresh snapd --channel=latest/stable
       - name: Build snap
         run: |
+          sudo chmod 777 -R .
           sg lxd -c 'snapcraft --use-lxd'
           sudo mv microk8s*.snap microk8sforchina.snap
       - name: Uploading snap
