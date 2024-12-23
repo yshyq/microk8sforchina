@@ -8,40 +8,40 @@ on:
     branches:
       - master
 jobs:
-  build:
-    name: Create snap package
-    runs-on: ubuntu-20.04
+  # build:
+  #   name: Create snap package
+  #   runs-on: ubuntu-20.04
 
-    steps:
-      - name: Checking out repo
-        uses: actions/checkout@v4
-      - name: Install lxd
-        run: |
-          sudo lxd init --auto
-          sudo usermod --append --groups lxd $USER
-          sg lxd -c 'lxc version'
-      - name: Install snapcraft
-        run: |
-          sudo snap install snapcraft --classic
-      - name: Install snapd from candidate
-        run: |
-          # TODO(neoaggelos): revert this after latest/beta is working again
-          sudo snap refresh snapd --channel=latest/stable
-      - name: Build snap
-        run: |
-          sudo chmod 777 -R .
-          sg lxd -c 'snapcraft --use-lxd'
-          sudo mv microk8s*.snap microk8sforchina.snap
-      - name: Uploading snap
-        uses: actions/upload-artifact@v3
-        with:
-          name: microk8sforchina.snap
-          path: microk8sforchina.snap
+  #   steps:
+  #     - name: Checking out repo
+  #       uses: actions/checkout@v4
+  #     - name: Install lxd
+  #       run: |
+  #         sudo lxd init --auto
+  #         sudo usermod --append --groups lxd $USER
+  #         sg lxd -c 'lxc version'
+  #     - name: Install snapcraft
+  #       run: |
+  #         sudo snap install snapcraft --classic
+  #     - name: Install snapd from candidate
+  #       run: |
+  #         # TODO(neoaggelos): revert this after latest/beta is working again
+  #         sudo snap refresh snapd --channel=latest/stable
+  #     - name: Build snap
+  #       run: |
+  #         sudo chmod 777 -R .
+  #         sg lxd -c 'snapcraft --use-lxd'
+  #         sudo mv microk8s*.snap microk8sforchina.snap
+  #     - name: Uploading snap
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: microk8sforchina.snap
+  #         path: microk8sforchina.snap
 
   build-and-deploy:
       runs-on: ubuntu-20.04
       needs: build
-      
+
       steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -69,9 +69,9 @@ jobs:
   
       - name: Upload snap file to server
         uses: actions/download-artifact@v3.0.2
-        with:
-          name: microk8sforchina.snap
-          path: build
+        # with:
+        #   name: microk8sforchina.snap
+        #   path: build
         # 使用scp命令将snap文件上传到服务器
         # run: |
         #   scp -o StrictHostKeyChecking=no $PWD/build/microk8sforchina.snap root@120.27.202.116:/tmp/
@@ -81,9 +81,11 @@ jobs:
           YOUR_SERVER_IP: ${{ secrets.YOUR_SERVER_IP }} # 如果你不想在YAML文件中硬编码IP地址
           YOUR_USERNAME: ${{ secrets.YOUR_USERNAME }} # 服务器用户名
       - name: upload 
-        # 使用scp命令将snap文件上传到服务器
-        run: |
-          scp -o StrictHostKeyChecking=no $PWD/build/microk8sforchina.snap root@120.27.202.116:/tmp/        
+        # # 使用scp命令将snap文件上传到服务器
+        run: | 
+          ssh root@120.27.202.116 'ls /tmp'
+        # run: |
+        #   scp -o StrictHostKeyChecking=no $PWD/build/microk8sforchina.snap root@120.27.202.116:/tmp/        
 
 
   test-upgrade:
