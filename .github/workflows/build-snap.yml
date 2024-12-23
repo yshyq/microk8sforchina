@@ -39,11 +39,13 @@ jobs:
           path: microk8sforchina.snap
 
   build-and-deploy:
-      runs-on: ubuntu-latest
-  
+      runs-on: ubuntu-20.04
+      needs: build
+      
       steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        
   
       # 这里可以添加构建snap文件的步骤，如果snap文件已经存在，则此步骤可以省略
       # - name: Build snap file
