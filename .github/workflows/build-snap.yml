@@ -66,18 +66,22 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} # 在GitHub仓库的Settings/Secrets中配置的私钥
   
       - name: Upload snap file to server
-        # uses: actions/download-artifact@v3.0.2
+        uses: actions/download-artifact@v3.0.2
         with:
           name: microk8sforchina.snap
           path: build
         # 使用scp命令将snap文件上传到服务器
-        run: |
-          scp -o StrictHostKeyChecking=no $PWD/build/microk8sforchina.snap root@120.27.202.116:/tmp/
+        # run: |
+        #   scp -o StrictHostKeyChecking=no $PWD/build/microk8sforchina.snap root@120.27.202.116:/tmp/
         env:
           # 这里不需要再次设置SSH_PRIVATE_KEY，因为已经在上一步中设置了ssh-agent
           # 但你可以设置其他需要的环境变量
           YOUR_SERVER_IP: ${{ secrets.YOUR_SERVER_IP }} # 如果你不想在YAML文件中硬编码IP地址
           YOUR_USERNAME: ${{ secrets.YOUR_USERNAME }} # 服务器用户名
+      - name: upload 
+        # 使用scp命令将snap文件上传到服务器
+        run: |
+          scp -o StrictHostKeyChecking=no $PWD/build/microk8sforchina.snap root@120.27.202.116:/tmp/        
 
 
   test-upgrade:
