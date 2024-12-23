@@ -40,7 +40,7 @@ jobs:
 
   build-and-deploy:
       runs-on: ubuntu-20.04
-      name: lstest
+      name: ls-test
       # needs: build
 
       steps:
