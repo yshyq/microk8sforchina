@@ -59,6 +59,7 @@ jobs:
         # 使用ssh-agent来存储私钥，以便后续步骤可以使用它来连接到服务器
         run: |
           mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}"
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           eval "$(ssh-agent -s)"
@@ -84,7 +85,7 @@ jobs:
       - name: upload 
         # # 使用scp命令将snap文件上传到服务器
         run: | 
-          ssh root@120.27.202.116 'ls /tmp'
+          ssh -o StrictHostKeyChecking=no  root@120.27.202.116 'ls /tmp'
         # run: |
         #   scp -o StrictHostKeyChecking=no $PWD/build/microk8sforchina.snap root@120.27.202.116:/tmp/        
 
