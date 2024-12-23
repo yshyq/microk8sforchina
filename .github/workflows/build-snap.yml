@@ -69,7 +69,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} # 在GitHub仓库的Settings/Secrets中配置的私钥
   
       - name: Upload snap file to server
-        uses: actions/download-artifact@v3.0.2
+        uses: actions/download-artifact@v4.1.8
         # with:
         #   name: microk8sforchina.snap
         #   path: build
@@ -106,7 +106,7 @@ jobs:
   #         sudo apt-get -y install open-iscsi
   #         sudo systemctl enable iscsid
   #     - name: Fetch snap
-  #       uses: actions/download-artifact@v3.0.2
+  #       uses: actions/download-artifact@v4.1.8
   #       with:
   #         name: microk8sforchina.snap
   #         path: build
@@ -131,7 +131,7 @@ jobs:
   #         sudo apt-get -y install open-iscsi
   #         sudo systemctl enable iscsid
   #     - name: Fetch snap
-  #       uses: actions/download-artifact@v3.0.2
+  #       uses: actions/download-artifact@v4.1.8
   #       with:
   #         name: microk8s.snap
   #         path: build
@@ -161,7 +161,7 @@ jobs:
   #         sudo apt-get -y install open-iscsi
   #         sudo systemctl enable iscsid
   #     - name: Fetch snap
-  #       uses: actions/download-artifact@v3.0.2
+  #       uses: actions/download-artifact@v4.1.8
   #       with:
   #         name: microk8s.snap
   #         path: build
@@ -194,7 +194,7 @@ jobs:
   #         sudo apt-get -y install open-iscsi
   #         sudo systemctl enable iscsid
   #     - name: Fetch snap
-  #       uses: actions/download-artifact@v3.0.2
+  #       uses: actions/download-artifact@v4.1.8
   #       with:
   #         name: microk8s.snap
   #         path: build
@@ -219,7 +219,7 @@ jobs:
   #         sudo pip3 install --upgrade pip
   #         sudo pip3 install -U pytest sh requests
   #     - name: Fetch snap
-  #       uses: actions/download-artifact@v3.0.2
+  #       uses: actions/download-artifact@v4.1.8
   #       with:
   #         name: microk8s.snap
   #         path: build
@@ -238,7 +238,7 @@ jobs:
   #     - name: Checking out repo
   #       uses: actions/checkout@v4
   #     - name: Fetch snap
-  #       uses: actions/download-artifact@v3.0.2
+  #       uses: actions/download-artifact@v4.1.8
   #       with:
   #         name: microk8s.snap
   #         path: build
@@ -260,7 +260,7 @@ jobs:
   #     - name: Checking out repo
   #       uses: actions/checkout@v4
   #     - name: Fetch snap
-  #       uses: actions/download-artifact@v3.0.2
+  #       uses: actions/download-artifact@v4.1.8
   #       with:
   #         name: microk8s.snap
   #         path: build
