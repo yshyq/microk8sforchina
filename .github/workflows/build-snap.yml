@@ -45,7 +45,7 @@ jobs:
 
       steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         
   
       # 这里可以添加构建snap文件的步骤，如果snap文件已经存在，则此步骤可以省略
