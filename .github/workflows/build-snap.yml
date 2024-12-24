@@ -66,8 +66,8 @@ jobs:
           ssh-add ~/.ssh/id_rsa
           # 可选：避免首次连接时的HostKeyChecking
           echo -e "Host 120.27.202.116\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} # 在GitHub仓库的Settings/Secrets中配置的私钥
+        # env:
+        #   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} # 在GitHub仓库的Settings/Secrets中配置的私钥
   
 
       # - name: Upload snap file to server
