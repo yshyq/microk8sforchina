@@ -8,35 +8,35 @@ on:
     branches:
       - master
 jobs:
-  build:
-    name: Create snap package
-    runs-on: ubuntu-20.04
+  # build:
+  #   name: Create snap package
+  #   runs-on: ubuntu-20.04
 
-    steps:
-      - name: Checking out repo
-        uses: actions/checkout@v4
-      - name: Install lxd
-        run: |
-          sudo lxd init --auto
-          sudo usermod --append --groups lxd $USER
-          sg lxd -c 'lxc version'
-      - name: Install snapcraft
-        run: |
-          sudo snap install snapcraft --classic
-      - name: Install snapd from candidate
-        run: |
-          # TODO(neoaggelos): revert this after latest/beta is working again
-          sudo snap refresh snapd --channel=latest/stable
-      - name: Build snap
-        run: |
-          sudo chmod 777 -R .
-          sg lxd -c 'snapcraft --use-lxd'
-          sudo mv microk8s*.snap microk8sforchina.snap
-      - name: Uploading snap
-        uses: actions/upload-artifact@v3
-        with:
-          name: microk8sforchina.snap
-          path: microk8sforchina.snap
+  #   steps:
+  #     - name: Checking out repo
+  #       uses: actions/checkout@v4
+  #     - name: Install lxd
+  #       run: |
+  #         sudo lxd init --auto
+  #         sudo usermod --append --groups lxd $USER
+  #         sg lxd -c 'lxc version'
+  #     - name: Install snapcraft
+  #       run: |
+  #         sudo snap install snapcraft --classic
+  #     - name: Install snapd from candidate
+  #       run: |
+  #         # TODO(neoaggelos): revert this after latest/beta is working again
+  #         sudo snap refresh snapd --channel=latest/stable
+  #     - name: Build snap
+  #       run: |
+  #         sudo chmod 777 -R .
+  #         sg lxd -c 'snapcraft --use-lxd'
+  #         sudo mv microk8s*.snap microk8sforchina.snap
+  #     - name: Uploading snap
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: microk8sforchina.snap
+  #         path: microk8sforchina.snap
 
   # build-and-deploy:
   #     runs-on: ubuntu-20.04
@@ -96,7 +96,7 @@ jobs:
   upload-snap-to-release:
     name: snap-to-release
     runs-on: ubuntu-20.04
-    needs: build
+    # needs: build
 
     steps:
       - name: Upload to Release
