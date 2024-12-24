@@ -38,14 +38,14 @@ jobs:
   #         name: microk8sforchina.snap
   #         path: microk8sforchina.snap
 
-  build-and-deploy:
-      runs-on: ubuntu-20.04
-      name: ls-test
-      # needs: build
+  # build-and-deploy:
+  #     runs-on: ubuntu-20.04
+  #     name: ls-test
+  #     # needs: build
 
-      steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  #     steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
         
   
       # 这里可以添加构建snap文件的步骤，如果snap文件已经存在，则此步骤可以省略
@@ -55,18 +55,18 @@ jobs:
       #     chmod +x build-snap.sh
       #     ./build-snap.sh
   
-      - name: Set up SSH keys
-        # 使用ssh-agent来存储私钥，以便后续步骤可以使用它来连接到服务器
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          cat ~/.ssh/id_rsa
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
-          # 可选：避免首次连接时的HostKeyChecking
-          echo -e "Host 120.27.202.116\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-        # env:
+      # - name: Set up SSH keys
+      #   # 使用ssh-agent来存储私钥，以便后续步骤可以使用它来连接到服务器
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
+      #     cat ~/.ssh/id_rsa
+      #     eval "$(ssh-agent -s)"
+      #     ssh-add ~/.ssh/id_rsa
+      #     # 可选：避免首次连接时的HostKeyChecking
+      #     echo -e "Host 120.27.202.116\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+      #   # env:
         #   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }} # 在GitHub仓库的Settings/Secrets中配置的私钥
   
 
@@ -91,6 +91,24 @@ jobs:
           ssh -o StrictHostKeyChecking=no  root@120.27.202.116 'ls /tmp'
         # run: |
         #   scp -o StrictHostKeyChecking=no $PWD/build/microk8sforchina.snap root@120.27.202.116:/tmp/        
+
+
+  upload-snap-to-release:
+    name: snap-to-release
+    runs-on: ubuntu-20.04
+    needs: build
+
+    steps:
+      - name: Upload to Release
+      uses: svenstaro/upload-release-action@v2  # 使用upload-release-action插件
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub提供的用于身份验证的令牌
+        file: $PWD/build/*.snap  # 指定要上传的文件路径（使用通配符可以匹配多个文件）
+        tag: ${{ github.ref }}  # 指定要上传到的Release标签（通常是当前推送的标签）
+        release_name: ${{ github.ref }}  # 指定Release的名称（可以根据需要自定义）
+        overwrite: true  # 如果文件已存在，则覆盖它
+        file_glob: true  # 允许使用通配符匹配文件
+
 
 
   # test-upgrade:
