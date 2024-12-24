@@ -41,7 +41,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2  # 使用upload-release-action插件
         with:
           repo_token: ${{ secrets.GIT_TOKEN }}  # GitHub提供的用于身份验证的令牌
-          file: *.snap  # 指定要上传的文件路径（使用通配符可以匹配多个文件）
+          file: microk8sforchina.snap  # 指定要上传的文件路径（使用通配符可以匹配多个文件）
           tag: v1.0.0  #${{ github.ref }}  # 指定要上传到的Release标签（通常是当前推送的标签）
           release_name: v1.0.0 #${{ github.ref }}  # 指定Release的名称（可以根据需要自定义）
           overwrite: true  # 如果文件已存在，则覆盖它
