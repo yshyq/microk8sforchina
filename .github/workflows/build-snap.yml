@@ -84,9 +84,10 @@ jobs:
       #     YOUR_SERVER_IP: ${{ secrets.YOUR_SERVER_IP }} # 如果你不想在YAML文件中硬编码IP地址
       #     YOUR_USERNAME: ${{ secrets.YOUR_USERNAME }} # 服务器用户名
       - name: upload 
-      
+
         # # 使用scp命令将snap文件上传到服务器
         run: | 
+          cat  /home/runner/.ssh/id_rsa 
           ssh -o StrictHostKeyChecking=no  root@120.27.202.116 'ls /tmp'
         # run: |
         #   scp -o StrictHostKeyChecking=no $PWD/build/microk8sforchina.snap root@120.27.202.116:/tmp/        
