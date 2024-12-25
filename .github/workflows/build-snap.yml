@@ -3,10 +3,10 @@ name: Build and test MicroK8s snap
 on:
   pull_request:
     branches:
-      - master
+      - master,dev-1.0.0
   push: 
     branches:
-      - master
+      - master,dev-1.0.0
 jobs:
   build:
     name: Create snap package
